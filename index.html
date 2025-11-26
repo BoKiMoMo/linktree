@@ -3,41 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris Shih | Keeper of Arcane Knowledge</title>
+    <title>石楷賢 Chris Shih | 技術產品經理</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Cinzel Decorative for ancient feel -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- 字體設定：Noto Sans TC (中文), Cinzel Decorative (英文裝飾), Roboto (英文內文) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
+    <!-- FontAwesome (圖示庫) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Tailwind Config -->
+    <!-- Tailwind Config (自定義主題色) -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         eldritch: {
-                            bg: '#1a0524', // Update: Darker Purple Base
-                            dark: '#2e1065', // Deep Violet
-                            accent: '#9333ea', // Purple-600
-                            glow: '#d8b4fe', // Purple-300 (Glow)
-                            text: '#e9d5ff', // Purple-100 (Text)
+                            bg: '#1a0524', // 深紫色基底
+                            dark: '#2e1065', // 深紫
+                            accent: '#9333ea', // 強調紫 (Purple-600)
+                            glow: '#d8b4fe', // 發光紫 (Purple-300)
+                            text: '#e9d5ff', // 文字紫 (Purple-100)
                         }
                     },
                     fontFamily: {
-                        sans: ['Roboto', 'sans-serif'],
+                        sans: ['Noto Sans TC', 'Roboto', 'sans-serif'],
                         rune: ['Cinzel Decorative', 'cursive'],
                     },
                     boxShadow: {
                         'rune-glow': '0 0 20px rgba(147, 51, 234, 0.4), inset 0 0 10px rgba(147, 51, 234, 0.2)',
-                        'rune-glow-hover': '0 0 30px rgba(216, 180, 254, 0.6), inset 0 0 15px rgba(216, 180, 254, 0.3)',
+                        'rune-glow-hover': '0 0 35px rgba(216, 180, 254, 0.7), inset 0 0 20px rgba(216, 180, 254, 0.4)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -45,35 +48,32 @@
     </script>
 
     <style>
-        /* Base Background Color */
+        /* 基礎背景設定 */
         body {
-            background-color: #1a0524; /* Dark Purple */
+            background-color: #1a0524;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Watermark Logo Layer 
-           - Positioned behind everything
-           - Fixed so it stays while scrolling
-           - Opacity 40% as requested
-        */
+        /* 背景浮水印 (固定在右上角) */
         .bg-watermark {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw; /* Adjust size relative to viewport */
-            max-width: 600px; /* Cap the max size */
+            top: 0;
+            right: 0;
+            /* 調整位置：向右移 20%，向上移 20%，創造裁切感 */
+            transform: translate(20%, -20%); 
+            width: 100vw;       
+            max-width: 900px;   
             height: auto;
-            opacity: 0.4; /* 40% Opacity */
-            z-index: -2;
-            pointer-events: none;
-            filter: blur(1px) drop-shadow(0 0 20px rgba(147, 51, 234, 0.3));
-            mix-blend-mode: luminosity; /* Blends nicely with the purple bg */
+            opacity: 0.4;       /* 40% 透明度 */
+            z-index: 0;         
+            pointer-events: none; 
+            mix-blend-mode: overlay; 
+            filter: blur(0.5px);
         }
 
-        /* The Void Swirl Animation (Overlaying the logo slightly for depth) */
+        /* 虛空漩渦動畫背景 */
         .void-swirl {
             position: fixed;
             top: 50%;
@@ -81,11 +81,11 @@
             transform: translate(-50%, -50%);
             width: 120vw;
             height: 120vw;
-            background: radial-gradient(circle, rgba(26, 5, 36, 0.4) 20%, transparent 70%),
-                        conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(88, 28, 135, 0.1) 180deg, transparent 360deg);
-            z-index: -1;
+            background: radial-gradient(circle, rgba(26, 5, 36, 0.5) 30%, transparent 70%),
+                        conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(88, 28, 135, 0.05) 180deg, transparent 360deg);
+            z-index: 1; 
             pointer-events: none;
-            animation: swirl-void 30s linear infinite;
+            animation: swirl-void 60s linear infinite;
         }
 
         @keyframes swirl-void {
@@ -93,16 +93,16 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        /* Runestone Panel Styling */
+        /* 符文石板按鈕樣式 */
         .runestone-panel {
-            background: rgba(46, 16, 101, 0.4); /* Deep Purple Tint */
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: rgba(46, 16, 101, 0.5); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(147, 51, 234, 0.4);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.6);
         }
         
-        /* Animated Border Glow */
+        /* 按鈕邊框流光動畫 */
         .runestone-panel::before {
             content: '';
             position: absolute;
@@ -110,7 +110,7 @@
             background: linear-gradient(45deg, #581c87, #9333ea, #d8b4fe, #581c87);
             background-size: 400% 400%;
             z-index: -1;
-            filter: blur(8px);
+            filter: blur(10px);
             opacity: 0;
             transition: opacity 0.4s ease;
             border-radius: inherit;
@@ -130,120 +130,187 @@
 </head>
 <body class="text-eldritch-text font-sans antialiased">
 
-    <!-- 1. Background Watermark Logo -->
-    <img src="Logo_background.png" alt="Watermark Crest" class="bg-watermark">
+    <!-- 1. 背景層：右上角浮水印 Logo -->
+    <img src="Logo_background.png" alt="Totem Background" class="bg-watermark">
 
-    <!-- 2. Animated Void Effect (Overlay) -->
+    <!-- 2. 背景層：虛空漩渦特效 -->
     <div class="void-swirl"></div>
 
-    <!-- 3. Main Content -->
-    <main class="max-w-lg mx-auto px-6 py-12 min-h-screen flex flex-col items-center relative z-10">
+    <!-- 3. 內容層 -->
+    <main class="max-w-lg mx-auto px-6 py-16 min-h-screen flex flex-col items-center relative z-10">
 
         <!-- Header -->
         <header class="text-center mb-12 w-full animate-[fadeIn_1s_ease-out]">
             <!-- Avatar -->
-            <div class="relative inline-block group">
-                <div class="absolute -inset-3 bg-eldritch-accent rounded-full blur-xl opacity-30 group-hover:opacity-60 animate-pulse transition duration-500"></div>
+            <div class="relative inline-block group mb-6">
+                <div class="absolute -inset-4 bg-eldritch-accent rounded-full blur-2xl opacity-40 group-hover:opacity-70 animate-pulse-slow transition duration-500"></div>
                 <img 
                     src="avatar.png" 
                     alt="Chris Shih" 
-                    onerror="this.src='https://via.placeholder.com/150/2e1065/d8b4fe?text=Chris'"
-                    class="relative w-36 h-36 rounded-full object-cover border-[3px] border-eldritch-accent shadow-rune-glow mx-auto transition-transform duration-500 group-hover:scale-105"
+                    onerror="this.src='https://via.placeholder.com/180/2e1065/d8b4fe?text=Chris'"
+                    class="relative w-40 h-40 rounded-full object-cover border-[3px] border-eldritch-accent shadow-rune-glow mx-auto transition-transform duration-500 group-hover:scale-105"
                 >
             </div>
 
-            <!-- Name & Title -->
-            <h1 class="mt-8 text-4xl font-rune font-bold text-white tracking-wider drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]">
-                Chris Shih
+            <!-- Name (中文為主) -->
+            <h1 class="text-4xl font-bold text-white tracking-widest drop-shadow-[0_0_15px_rgba(147,51,234,0.9)] mb-1">
+                石 楷 賢
             </h1>
-            <h2 class="mt-3 text-sm font-rune font-bold text-eldritch-glow tracking-[0.25em] uppercase border-b border-eldritch-accent/40 pb-2 inline-block">
-                Technical Product Manager
+            <h2 class="text-xl font-rune font-bold text-white/60 tracking-wider mb-5">
+                Chris Shih
             </h2>
+
+            <!-- Title -->
+            <div class="inline-block border-y border-eldritch-accent/50 py-3 px-8 mb-4 backdrop-blur-sm bg-eldritch-bg/30">
+                <p class="text-xl font-bold text-eldritch-glow tracking-[0.1em]">
+                    技術產品經理
+                </p>
+                <p class="text-xs font-rune font-bold text-eldritch-glow/60 tracking-[0.15em] uppercase mt-1">
+                    Technical Product Manager
+                </p>
+            </div>
             
-            <p class="mt-4 text-eldritch-text text-sm italic font-light w-4/5 mx-auto opacity-80">
-                "Turning Chaos into Order."
-            </p>
+            <!-- Slogan -->
+            <div class="space-y-1 mt-4">
+                <p class="text-eldritch-text text-base font-light opacity-90">
+                    化混沌為秩序，連結技術與商業的橋樑。
+                </p>
+                <p class="text-eldritch-text text-sm italic font-light opacity-60 font-rune">
+                    "Turning Chaos into Order."
+                </p>
+            </div>
         </header>
 
-        <!-- Links -->
+        <!-- Links List -->
         <div class="w-full flex flex-col gap-5">
             
-            <!-- Featured: Portfolio -->
-            <a href="Portfolio_Chris_Shih_TPM.pdf" download class="group relative w-full">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-700 to-fuchsia-600 rounded-xl blur opacity-30 group-hover:opacity-70 transition duration-300"></div>
-                
-                <div class="relative runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 transform group-hover:-translate-y-1">
-                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-eldritch-dark text-eldritch-glow group-hover:bg-eldritch-glow group-hover:text-eldritch-bg transition-all duration-300 border border-eldritch-accent/30">
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-                    </div>
-                    <span class="flex-grow text-center font-rune font-bold text-xl text-white tracking-wide">Download Portfolio</span>
-                    <i class="fa-solid fa-chevron-right text-eldritch-glow opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5"></i>
-                </div>
-            </a>
-
             <!-- LinkedIn -->
             <a href="https://www.linkedin.com/in/stone-shih-pm" target="_blank" class="block w-full group relative">
-                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/60">
-                    <div class="w-12 text-center">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
                         <i class="fa-brands fa-linkedin text-3xl text-eldritch-text/80 group-hover:text-eldritch-glow transition-colors"></i>
                     </div>
-                    <span class="flex-grow text-center font-rune font-semibold text-lg text-gray-200 group-hover:text-white">LinkedIn Profile</span>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-100 group-hover:text-white tracking-wide">領英個人檔案</span>
+                        <span class="font-rune text-xs text-gray-400 group-hover:text-gray-200 uppercase">LinkedIn Profile</span>
+                    </div>
                 </div>
             </a>
 
             <!-- GitHub -->
             <a href="https://github.com/BoKiMoMo" target="_blank" class="block w-full group relative">
-                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/60">
-                    <div class="w-12 text-center">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
                         <i class="fa-brands fa-github text-3xl text-eldritch-text/80 group-hover:text-eldritch-glow transition-colors"></i>
                     </div>
-                    <span class="flex-grow text-center font-rune font-semibold text-lg text-gray-200 group-hover:text-white">GitHub Profile</span>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-100 group-hover:text-white tracking-wide">程式碼作品集</span>
+                        <span class="font-rune text-xs text-gray-400 group-hover:text-gray-200 uppercase">GitHub Profile</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- LINE (NEW) -->
+            <a href="https://line.me/ti/p/N7CD7VDRCx" target="_blank" class="block w-full group relative">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
+                        <i class="fa-brands fa-line text-3xl text-eldritch-text/80 group-hover:text-[#06c755] transition-colors"></i>
+                    </div>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-100 group-hover:text-white tracking-wide">LINE 聯絡我</span>
+                        <span class="font-rune text-xs text-gray-400 group-hover:text-gray-200 uppercase">Add me on LINE</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Instagram (NEW) -->
+            <a href="https://www.instagram.com/lock_bokimomo?igsh=d3NpYTVjZ2Zla3Y4&utm_source=qr" target="_blank" class="block w-full group relative">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
+                        <i class="fa-brands fa-instagram text-3xl text-eldritch-text/80 group-hover:text-[#E1306C] transition-colors"></i>
+                    </div>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-100 group-hover:text-white tracking-wide">Instagram</span>
+                        <span class="font-rune text-xs text-gray-400 group-hover:text-gray-200 uppercase">Follow my updates</span>
+                    </div>
                 </div>
             </a>
 
             <!-- Email -->
             <a href="mailto:aacd870624@gmail.com" class="block w-full group relative">
-                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/60">
-                    <div class="w-12 text-center">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
                         <i class="fa-solid fa-envelope text-3xl text-eldritch-text/80 group-hover:text-eldritch-glow transition-colors"></i>
                     </div>
-                    <span class="flex-grow text-center font-rune font-semibold text-lg text-gray-200 group-hover:text-white">Email Me</span>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-100 group-hover:text-white tracking-wide">Email 聯絡</span>
+                        <span class="font-rune text-xs text-gray-400 group-hover:text-gray-200 uppercase">Send me an Email</span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Arcane Divider -->
-            <div class="flex items-center gap-4 my-4 opacity-60">
+            <!-- Divider: Projects -->
+            <div class="flex items-center gap-4 my-4 opacity-70">
                 <div class="h-px bg-gradient-to-r from-transparent via-eldritch-glow to-transparent flex-grow"></div>
-                <span class="text-xs font-rune tracking-[0.3em] text-eldritch-glow uppercase">Projects</span>
+                <span class="text-sm font-bold tracking-[0.2em] text-eldritch-glow text-center">
+                    精選專案<br>
+                    <span class="text-[0.6rem] font-rune tracking-normal opacity-60 uppercase">Featured Projects</span>
+                </span>
                 <div class="h-px bg-gradient-to-r from-transparent via-eldritch-glow to-transparent flex-grow"></div>
             </div>
 
             <!-- Project 1 -->
             <a href="#" class="block w-full group relative">
-                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/60">
-                    <div class="w-12 text-center">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
                         <i class="fa-solid fa-folder-tree text-2xl text-eldritch-text/80 group-hover:text-eldritch-glow transition-colors"></i>
                     </div>
-                    <span class="flex-grow text-center font-rune font-medium text-gray-300 group-hover:text-white">Project: AI.KB.Assistant</span>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-200 group-hover:text-white">AI.KB.Assistant</span>
+                        <span class="font-sans text-xs text-gray-400 group-hover:text-gray-200">企業級 AI 知識庫助手</span>
+                    </div>
                 </div>
             </a>
 
             <!-- Project 2 -->
             <a href="#" class="block w-full group relative">
-                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/60">
-                    <div class="w-12 text-center">
+                <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
+                    <div class="w-14 text-center">
                         <i class="fa-solid fa-chart-line text-2xl text-eldritch-text/80 group-hover:text-eldritch-glow transition-colors"></i>
                     </div>
-                    <span class="flex-grow text-center font-rune font-medium text-gray-300 group-hover:text-white">Project: AI Marketing Copilot</span>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-lg text-gray-200 group-hover:text-white">AI Marketing Copilot</span>
+                        <span class="font-sans text-xs text-gray-400 group-hover:text-gray-200">AI 行銷決策副駕駛</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Spacer -->
+            <div class="h-2"></div>
+
+            <!-- Download Portfolio (Moved to Bottom) -->
+            <a href="Portfolio_Chris_Shih_TPM.pdf" download class="group relative w-full mt-2">
+                <!-- 特別強調背景 -->
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-purple-700 rounded-xl blur opacity-40 group-hover:opacity-80 transition duration-300 animate-pulse-slow"></div>
+                
+                <div class="relative runestone-panel rounded-xl p-5 flex items-center transition-all duration-300 transform group-hover:-translate-y-1 border-eldritch-glow/50">
+                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-eldritch-dark text-eldritch-glow group-hover:bg-eldritch-glow group-hover:text-eldritch-bg transition-all duration-300 border border-eldritch-accent/50 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
+                    </div>
+                    <div class="flex-grow text-center flex flex-col">
+                        <span class="font-bold text-xl text-white tracking-wide drop-shadow-md">下載完整作品集 (PDF)</span>
+                        <span class="font-rune font-bold text-xs text-eldritch-glow mt-1 group-hover:text-white transition-colors uppercase">Download Portfolio</span>
+                    </div>
+                    <i class="fa-solid fa-download text-eldritch-glow opacity-60 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 text-lg"></i>
                 </div>
             </a>
 
         </div>
 
         <!-- Footer -->
-        <footer class="mt-16 text-center pb-8">
-            <p class="text-xs text-eldritch-text/40 font-rune font-bold tracking-widest">
-                &copy; 2025 Chris Shih. All Rights Reserved.
+        <footer class="mt-20 text-center pb-8 border-t border-eldritch-accent/20 w-3/4 pt-8">
+            <p class="text-xs text-eldritch-text/50 font-sans tracking-widest">
+                &copy; 2025 石楷賢 Chris Shih.<br>All Rights Reserved.
             </p>
         </footer>
 
