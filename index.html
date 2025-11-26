@@ -8,31 +8,31 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- 字體設定：Noto Sans TC (中文), Cinzel Decorative (英文裝飾), Roboto (英文內文) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome (圖示庫) -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Tailwind Config (自定義主題色) -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         eldritch: {
-                            bg: '#1a0524', // 深紫色基底
-                            dark: '#2e1065', // 深紫
-                            accent: '#9333ea', // 強調紫 (Purple-600)
-                            glow: '#d8b4fe', // 發光紫 (Purple-300)
-                            text: '#e9d5ff', // 文字紫 (Purple-100)
+                            bg: '#1a0524',
+                            dark: '#2e1065',
+                            accent: '#9333ea',
+                            glow: '#d8b4fe',
+                            text: '#e9d5ff',
                         }
                     },
                     fontFamily: {
                         sans: ['Noto Sans TC', 'Roboto', 'sans-serif'],
+                        serif: ['Noto Serif TC', 'serif'],
                         rune: ['Cinzel Decorative', 'cursive'],
                     },
                     boxShadow: {
@@ -41,6 +41,7 @@
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
                     }
                 }
             }
@@ -48,32 +49,44 @@
     </script>
 
     <style>
-        /* 基礎背景設定 */
         body {
             background-color: #1a0524;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow-x: hidden; /* 關鍵：隱藏超出畫面的浮水印 */
             position: relative;
         }
 
-        /* 背景浮水印 (固定在右上角) */
+        /* --- 核心修改：精準定位的浮水印 --- */
         .bg-watermark {
-            position: fixed;
-            top: 0;
-            right: 0;
-            /* 調整位置：向右移 20%，向上移 20%，創造裁切感 */
-            transform: translate(20%, -20%); 
-            width: 100vw;       
-            max-width: 900px;   
+            position: absolute;
+            
+            /* 1. 垂直定位：大幅往上拉，讓頂部被切掉，只留下 S 附近 */
+            top: -450px; 
+            
+            /* 2. 水平基準：螢幕正中間 */
+            left: 50%;
+            
+            /* 3. 大小鎖定：1250px 確保 S 的大小跟頭像差不多 */
+            width: 1250px;
+            max-width: none;
             height: auto;
-            opacity: 0.4;       /* 40% 透明度 */
+
+            /* 4. 關鍵位移：
+               translateX(-35%) 是一個黃金比例。
+               它會把這張巨大的圖往左移，讓圖騰中心的 "S" 剛好落在
+               螢幕中心(大頭照) 的「右邊一點點」。
+               同時因為圖片很大，右邊和上面會自然超出螢幕被切掉。
+            */
+            transform: translateX(-35%);
+            
+            /* 視覺特效 */
+            filter: invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            mix-blend-mode: screen; 
+            opacity: 0.15;      
             z-index: 0;         
             pointer-events: none; 
-            mix-blend-mode: overlay; 
-            filter: blur(0.5px);
         }
 
-        /* 虛空漩渦動畫背景 */
         .void-swirl {
             position: fixed;
             top: 50%;
@@ -93,7 +106,12 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        /* 符文石板按鈕樣式 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         .runestone-panel {
             background: rgba(46, 16, 101, 0.5); 
             backdrop-filter: blur(10px);
@@ -102,7 +120,6 @@
             box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.6);
         }
         
-        /* 按鈕邊框流光動畫 */
         .runestone-panel::before {
             content: '';
             position: absolute;
@@ -130,19 +147,17 @@
 </head>
 <body class="text-eldritch-text font-sans antialiased">
 
-    <!-- 1. 背景層：右上角浮水印 Logo -->
+    <!-- 1. 背景層 -->
     <img src="Logo_background.png" alt="Totem Background" class="bg-watermark">
-
-    <!-- 2. 背景層：虛空漩渦特效 -->
     <div class="void-swirl"></div>
 
-    <!-- 3. 內容層 -->
+    <!-- 2. 內容層 -->
     <main class="max-w-lg mx-auto px-6 py-16 min-h-screen flex flex-col items-center relative z-10">
 
         <!-- Header -->
         <header class="text-center mb-12 w-full animate-[fadeIn_1s_ease-out]">
             <!-- Avatar -->
-            <div class="relative inline-block group mb-6">
+            <div class="relative inline-block group mb-6 animate-float">
                 <div class="absolute -inset-4 bg-eldritch-accent rounded-full blur-2xl opacity-40 group-hover:opacity-70 animate-pulse-slow transition duration-500"></div>
                 <img 
                     src="avatar.png" 
@@ -152,8 +167,8 @@
                 >
             </div>
 
-            <!-- Name (中文為主) -->
-            <h1 class="text-4xl font-bold text-white tracking-widest drop-shadow-[0_0_15px_rgba(147,51,234,0.9)] mb-1">
+            <!-- Name -->
+            <h1 class="text-4xl font-serif font-bold text-white tracking-widest drop-shadow-[0_0_15px_rgba(147,51,234,0.9)] mb-1">
                 石 楷 賢
             </h1>
             <h2 class="text-xl font-rune font-bold text-white/60 tracking-wider mb-5">
@@ -172,7 +187,7 @@
             
             <!-- Slogan -->
             <div class="space-y-1 mt-4">
-                <p class="text-eldritch-text text-base font-light opacity-90">
+                <p class="text-eldritch-text text-base font-light opacity-90 font-serif">
                     化混沌為秩序，連結技術與商業的橋樑。
                 </p>
                 <p class="text-eldritch-text text-sm italic font-light opacity-60 font-rune">
@@ -210,7 +225,7 @@
                 </div>
             </a>
 
-            <!-- LINE (NEW) -->
+            <!-- LINE -->
             <a href="https://line.me/ti/p/N7CD7VDRCx" target="_blank" class="block w-full group relative">
                 <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
                     <div class="w-14 text-center">
@@ -223,7 +238,7 @@
                 </div>
             </a>
 
-            <!-- Instagram (NEW) -->
+            <!-- Instagram -->
             <a href="https://www.instagram.com/lock_bokimomo?igsh=d3NpYTVjZ2Zla3Y4&utm_source=qr" target="_blank" class="block w-full group relative">
                 <div class="runestone-panel rounded-xl p-4 flex items-center transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-eldritch-dark/70">
                     <div class="w-14 text-center">
@@ -249,7 +264,7 @@
                 </div>
             </a>
 
-            <!-- Divider: Projects -->
+            <!-- Divider -->
             <div class="flex items-center gap-4 my-4 opacity-70">
                 <div class="h-px bg-gradient-to-r from-transparent via-eldritch-glow to-transparent flex-grow"></div>
                 <span class="text-sm font-bold tracking-[0.2em] text-eldritch-glow text-center">
@@ -288,11 +303,9 @@
             <!-- Spacer -->
             <div class="h-2"></div>
 
-            <!-- Download Portfolio (Moved to Bottom) -->
+            <!-- Download Portfolio -->
             <a href="Portfolio_Chris_Shih_TPM.pdf" download class="group relative w-full mt-2">
-                <!-- 特別強調背景 -->
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-purple-700 rounded-xl blur opacity-40 group-hover:opacity-80 transition duration-300 animate-pulse-slow"></div>
-                
                 <div class="relative runestone-panel rounded-xl p-5 flex items-center transition-all duration-300 transform group-hover:-translate-y-1 border-eldritch-glow/50">
                     <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-eldritch-dark text-eldritch-glow group-hover:bg-eldritch-glow group-hover:text-eldritch-bg transition-all duration-300 border border-eldritch-accent/50 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
                         <i class="fa-solid fa-file-pdf text-2xl"></i>
@@ -304,7 +317,6 @@
                     <i class="fa-solid fa-download text-eldritch-glow opacity-60 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 text-lg"></i>
                 </div>
             </a>
-
         </div>
 
         <!-- Footer -->
@@ -315,6 +327,5 @@
         </footer>
 
     </main>
-
 </body>
 </html>
